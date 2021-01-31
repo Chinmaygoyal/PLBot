@@ -1,0 +1,1 @@
+PLBot is a Discord bot which gives the league standings and the league fixtures.
