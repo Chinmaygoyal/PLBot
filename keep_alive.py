@@ -16,7 +16,7 @@ def keep_alive():
     server = Thread(target=run)
     server.start()
 
-@app.route('/update')
+@app.route('/update', methods=['HEAD','GET'])
 def updateFunc():
     # Update the standings and the fixtures
     updateAll()
