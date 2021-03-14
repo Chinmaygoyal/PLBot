@@ -3,13 +3,18 @@ import table
 import discord
 from TeamDictionary import teamDict
 
-def getStandings():
+def getStandings(sortby = ""):
     teamlist = []
     with open('standings.txt', 'r') as handle:
         # temp = json.load(handle)
         # print(temp)
         parsed = json.load(handle)["response"][0]["league"]["standings"][0]
         # print(parsed)
+        sortbyID = 0
+        standingsHeader = ['rank', 'name', 'mp', 'w', 'd', 'l', 'gf', 'ga', 'pts', 'form']
+        if sortby.lower() in standingsHeader:
+            sortbyID = standingsHeader.index(sortby.lower()) 
+            
         for obj in parsed:
             newTeam = []
             newTeam.append(obj["rank"])
@@ -23,6 +28,8 @@ def getStandings():
             newTeam.append(obj["points"])
             newTeam.append(obj["form"])
             teamlist.append(newTeam)
+    ascsort = sortby.isupper()
+    teamlist.sort(key = lambda x: x[sortbyID],reverse = ascsort) 
     return teamlist
 
 def _make_table(teamlist):
@@ -37,4 +44,4 @@ def _make_table(teamlist):
     return table_str
 
 
-# print(getStandings())
+print(getStandings())

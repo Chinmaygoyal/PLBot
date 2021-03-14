@@ -14,21 +14,24 @@ def getDate(time):
     finalDate = temp[2] + "-" + temp[1] + "-" + temp[0]
     return finalDate
 
-def getFixtures():
+def getFixtures(id1=0):
     fixturelist = []
     with open('fixtures.txt', 'r') as handle:
         parsed = json.load(handle)["response"]
         for obj in parsed:
-            newmatch = []
-            # Venue,Date,Time,Round,HomeTeam,AwayTeam
-            newmatch.append(obj["fixture"]["venue"]["name"])
-            newmatch.append(getDate(obj["fixture"]["date"]))
-            newmatch.append(getTime(obj["fixture"]["date"]))
-            newmatch.append(obj["league"]["round"].split("-")[1])
-            newmatch.append(obj["teams"]["home"]["name"])
-            newmatch.append(obj["teams"]["away"]["name"])
-            fixturelist.append(newmatch)
+            if(obj["teams"]["away"]["id"] == id1 or obj["teams"]["home"]["id"] == id1 or id1==0):
+                newmatch = []
+                # Venue,Date,Time,Round,HomeTeam,AwayTeam
+                newmatch.append(obj["fixture"]["venue"]["name"])
+                newmatch.append(getDate(obj["fixture"]["date"]))
+                newmatch.append(getTime(obj["fixture"]["date"]))
+                newmatch.append(obj["league"]["round"].split("-")[1])
+                newmatch.append(obj["teams"]["home"]["name"])
+                newmatch.append(obj["teams"]["away"]["name"])
+                fixturelist.append(newmatch)
         # print(json.dumps(parsed[0], indent=4))
+    if(len(fixturelist) == 0):
+        fixtureslist = ['No Matches Found']
     return fixturelist
 
 # match = getFixtures()[0]
